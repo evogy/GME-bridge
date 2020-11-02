@@ -1,0 +1,35 @@
+{
+  "name": "gme-bridge",
+  "version": "1.0.0",
+  "description": "Retrieve energy cost from GME portal",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evogy/GME-bridge.git"
+  },
+  "keywords": [
+    "energy"
+  ],
+  "author": "Federico Gatti",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/evogy/GME-bridge/issues"
+  },
+  "homepage": "https://github.com/evogy/GME-bridge#readme",
+  "devDependencies": {
+    "serverless-offline": "^6.8.0"
+  },
+  "dependencies": {
+    "amqplib": "^0.6.0",
+    "amqplib-as-promised": "^4.0.0",
+    "aws-param-store": "^3.2.0",
+    "aws-sdk": "^2.774.0",
+    "basic-ftp": "^4.6.2",
+    "date-holidays": "^1.8.1",
+    "luxon": "^1.25.0",
+    "xml2js": "^0.4.23"
+  }
+}

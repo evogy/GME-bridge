@@ -1,0 +1,74 @@
+service: gme-bridge
+#app: your-app-name
+#org: your-org-name
+
+frameworkVersion: '2'
+
+custom:
+  queue_name: simon-queue
+
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: "eu-west-1"
+  profile: ${env:AWS_PROFILE}
+  stage: dev
+
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - ssm:GetParameter
+        - ssm:GetParameters
+        - ssm:DescribeDocument
+        - "logs:CreateLogGroup"
+        - "logs:CreateLogStream"
+        - "logs:PutLogEvents"
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+      Resource: "*"
+
+package:
+  exclude:
+    - .git
+    - .serverless
+    - node_modules
+    - package-lok.json
+    - package.json
+    - serverless.yml
+    - env.sh
+  include:
+    - ./*
+
+# you can define service wide environment variables here
+  # environment:
+
+
+functions:
+  tomorrow:
+    handler: handler.tomorrow
+    events:
+      - schedule: cron(0 16 * * ? *)
+    environment:
+      QUEUE_NAME: ${self:custom.queue_name}
+      AMQP_URL: /simonlab/amqp
+      GME_USER: TIZIANOARRIGA
+      GME_PASSWORD: /gme/password
+
+  by_date:
+    handler: handler.by_date
+    events:
+      - http:
+          path: by_date
+          method: get
+    environment:
+      QUEUE_NAME: ${self:custom.queue_name}
+      AMQP_URL: /simonlab/amqp
+      GME_USER: TIZIANOARRIGA
+      GME_PASSWORD: /gme/password
+
+plugins:
+  - serverless-offline
