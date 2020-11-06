@@ -39,7 +39,7 @@ async function import_gme_data_by_date(date, event) {
     logger('INFO', JSON.stringify(messages));
     await sendMessages(messages);
     logger('INFO', `End import PUN for ${date}`);
-    return response(messages, event);
+    return response(200, messages, event);
 }
 
 const response = (code, message, event) => {
@@ -48,7 +48,7 @@ const response = (code, message, event) => {
         body: JSON.stringify(
             {
                 message: message,
-                input: event,
+                input: event
             },
             null,
             2
