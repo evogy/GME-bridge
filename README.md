@@ -1,9 +1,9 @@
 # AWS Lambda driver for GME
 The Lambda application aim is to download from [GME](https://www.mercatoelettrico.org/it/) FTP the energy price and insert it on a RabbitMQ queue
 
-This Serverless project deployes a Lambda functions with two entry point:
+This Serverless project creates a Lambda functions with two entry point:
 
-- **tomorrow** triggered every day at 6:00 (UTC time) automatically download the energy price of tomorrow
+- **tomorrow** triggered every day at 4:00PM (UTC time) automatically download the energy price of tomorrow
 - **by_date** This function is a Node application that make available the following API endpoints:
     - **[GET] /by_date?date={yyyy-MM-dd}** download the energy price of a specific day
 
