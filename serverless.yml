@@ -36,7 +36,7 @@ package:
     - .git
     - .serverless
     - node_modules
-    - package-lok.json
+    - package-lock.json
     - package.json
     - serverless.yml
     - env.sh
@@ -54,7 +54,7 @@ functions:
       - schedule: cron(0 16 * * ? *)
     environment:
       QUEUE_NAME: ${self:custom.queue_name}
-      AMQP_URL: /simonlab/amqp
+      AMQP_URL: /gme/amqp
       GME_USER: TIZIANOARRIGA
       GME_PASSWORD: /gme/password
 
@@ -66,7 +66,7 @@ functions:
           method: get
     environment:
       QUEUE_NAME: ${self:custom.queue_name}
-      AMQP_URL: /simonlab/amqp
+      AMQP_URL: /gme/amqp
       GME_USER: TIZIANOARRIGA
       GME_PASSWORD: /gme/password
 
