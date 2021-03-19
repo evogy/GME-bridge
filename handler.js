@@ -7,6 +7,7 @@ const awsParamStore = require('aws-param-store');
 const { DateTime } = require('luxon');
 const Holidays = require('date-holidays');
 const hd = new Holidays();
+const installations = process.env.INSTALLATIONS.split(",");
 
 module.exports.tomorrow = async event => {
     try {
@@ -116,7 +117,7 @@ function parseData(data) {
         let date = define_date(value.Data[0], parseInt(value.Ora[0]));
         let pun = parseFloat(value.PUN[0].replace(/,/g,'.'));
         let hour = parseInt(value.Ora[0]) - 1;
-        messages.push(simon_data("pun", pun, date.toUTC().toISO()));
+        installations.forEach(installation => messages.push(simon_data("pun", pun, date.toUTC().toISO(), installation)));
         values.push(pun);
         if (is_out_peakload(hour, date)) {
             out_peakload.push(pun);
@@ -124,11 +125,13 @@ function parseData(data) {
             peakload.push(pun);
         }
     });
-    push(messages, simon_data("max_pun", max(values), date.toUTC().toISO()));
-    push(messages, simon_data("min_pun", min(values), date.toUTC().toISO()));
-    push(messages, simon_data("avg_pun", average(values), date.toUTC().toISO()));
-    push(messages, simon_data("out_peakload_pun", average(out_peakload), date.toUTC().toISO()));
-    push(messages, simon_data("peakload_pun", average(peakload), date.toUTC().toISO()));
+    installations.forEach(installation => {
+        push(messages, simon_data("max_pun", max(values), date.toUTC().toISO(), installation));
+        push(messages, simon_data("min_pun", min(values), date.toUTC().toISO(), installation));
+        push(messages, simon_data("avg_pun", average(values), date.toUTC().toISO(), installation));
+        push(messages, simon_data("out_peakload_pun", average(out_peakload), date.toUTC().toISO(), installation));
+        push(messages, simon_data("peakload_pun", average(peakload), date.toUTC().toISO(), installation));
+    });
     return messages;
 }
 
@@ -145,11 +148,11 @@ function define_date(date_string, hour) {
     });
 }
 
-function simon_data(datapoint, value, timestamp) {
+function simon_data(datapoint, value, timestamp, installation) {
     return {
         device: "gme",
         measurementUnit: "€/MWh",
-        installation: "0001",
+        installation: installation,
         name: datapoint,
         value: value,
         status: 0,
