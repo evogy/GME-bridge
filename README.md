@@ -22,5 +22,7 @@ To test on local pc you can use:
 
 1. `serverless invoke local --function {function_name}`
 
+if you want to test the http endpoint you must run for example `serverless invoke local --function by_date --data '{ "queryStringParameters": {"date": "2021-03-19"}}'`
+
 2. The serverless offline plugin: `${SLS_PATH}/sls offline start`
 

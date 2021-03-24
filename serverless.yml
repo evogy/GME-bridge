@@ -6,11 +6,6 @@ frameworkVersion: '2'
 
 custom:
   queue_name: simon-queue
-  installations:
-    - "0001"
-    - "15300"
-    - "15900"
-
 
 provider:
   name: aws
